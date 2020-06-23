@@ -30,7 +30,7 @@ public class TableInfo {
         TableInfo resData = new TableInfo();
         resData.setCode(0);
         resData.setData(list);
-        resData.setCount(new PageInfo(list).getTotal());
+        resData.setCount(size);
         return resData;
     }
 }

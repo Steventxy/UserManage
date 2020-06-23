@@ -44,6 +44,7 @@ public class UserController {
     @GetMapping("/list")
 //    @RequiresPermissions("user:list")
     public TableInfo userList(User user, int page, int limit) {
+        System.out.println("page:" + page + "limit:" +limit);
         List<User> list = userService.selectUserList(user,page,limit);
         List<User> users = userService.getUserCount(user);
         return tableInfo.getTableData(list,users.size());
