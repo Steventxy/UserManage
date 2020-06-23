@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <link rel="icon" href="images/favicon.jpg">
+    <link rel="stylesheet" th:href="@{css/index.css}"/>
+    <link rel="stylesheet" th:href="@{layui/css/layui.css}"/>
+</head>
+<body class="main_body">
+
+<div class="layui-layout layui-layout-admin">
+    <!-- 顶部 -->
+    <div class="layui-header header">
+        <div class="layui-main mag0">
+            <a href="#" class="logo" style="margin-left: -20px">用户管理系统</a>
+            <!--显示/隐藏菜单 -->
+<!--            <a href="javascript:;" class="seraph hideMenu icon-caidan"></a>-->
+            <!-- 顶级菜单 -->
+            <ul class="layui-nav mobileTopLevelMenus" mobile>
+                <li class="layui-nav-item" data-menu="contentManagement"></li>
+            </ul>
+            <ul class="layui-nav topLevelMenus" pc></ul>
+            <!-- 顶部右侧菜单 -->
+            <ul class="layui-nav top_menu" style="position: absolute">
+                <!--                <li class="layui-nav-item" pc>-->
+                <!--                    <a href="javascript:;" class="clearCache">-->
+                <!--                        <i class="layui-icon" data-icon="&#xe640;">&#xe640;</i>-->
+                <!--                        <cite>清除缓存</cite>-->
+                <!--                        <span class="layui-badge-dot"></span>-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <!--                <li class="layui-nav-item lockcms" pc>-->
+                <!--                    <a href="javascript:;"><i class="seraph icon-lock"></i><cite>锁屏</cite></a>-->
+                <!--                </li>-->
+                <li class="layui-nav-item" id="userInfo">
+                    <a href="javascript:;">
+                        <img src="images/favicon.jpg" class="layui-nav-img userAvatar" width="35" height="35">
+                        <cite class="adminName">
+                            <shiro:principal property="userName"/>
+                        </cite>
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" data-url="page/user/userInfo.html"><i
+                                class="layui-icon layui-icon-list"></i><cite>个人资料</cite></a></dd>
+                        <dd><a href="javascript:;" data-url="page/user/changePwd.html"><i
+                                class="layui-icon layui-icon-edit"></i><cite>修改密码</cite></a></dd>
+                        <!--                        <dd><a href="javascript:;" class="showNotice"><i class="layui-icon">&#xe645;</i><cite>系统公告</cite><span class="layui-badge-dot"></span></a></dd>-->
+                        <!--                        <dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite><span class="layui-badge-dot"></span></a></dd>-->
+                        <!--                        <dd pc><a href="javascript:;" class="changeSkin"><i class="layui-icon">&#xe61b;</i><cite>更换皮肤</cite></a></dd>-->
+                        <dd><a th:href="@{/logout}" class="signOut"><i
+                                class="seraph icon-tuichu"></i><cite>退出</cite></a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-side layui-bg-black">
+        <div class="user-photo">
+            <a class="img" title="我的头像"><img src="images/favicon.jpg" class="userAvatar" alt=""></a>
+            <p>你好！<shiro:principal property="userName"/>, 欢迎登录</p>
+        </div>
+        <div class="navBar layui-side-scroll" id="navBar">
+            <ul class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item layui-this">
+                    <a href="javascript:;" data-url="/main"><cite>首页</cite></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a>
+                        <cite>系统管理</cite>
+                        <span class="layui-nav-more"></span>
+                    </a>
+
+                    <ul class="layui-nav layui-nav-child">
+                        <li th:each="menu : ${menu}">
+                            <a href="javascript:;" th:data-url="${menu.url}"><cite th:text="${menu.menuName}"></cite></a>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab mag0" lay-filter="bodyTab" id="top_tabs_box" style="margin: -1.5px">
+            <ul class="layui-tab-title top_tab" id="top_tabs">
+                <li class="layui-this" lay-id=""><i class="layui-icon layui-icon-home"></i> <cite>首页</cite></li>
+            </ul>
+<!--            <ul class="layui-nav closeBox" style="position: absolute">-->
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="javascript:;"><i class="layui-icon layui-icon-radio"></i> 页面操作</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="javascript:;" class="refresh refreshThis">刷新当前</a></dd>-->
+<!--                        <dd><a href="javascript:;" class="closePageOther">关闭其他</a></dd>-->
+<!--                        <dd><a href="javascript:;" class="closePageAll">关闭全部</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+<!--            </ul>-->
+            <div class="layui-tab-content clildFrame" style="top: 50px">
+                <div class="layui-tab-item layui-show" >
+                    <iframe src="/main"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <div class="layui-footer footer">
+        <p><span>copyright @2020</span></p>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{js/index.js}"></script>
+</body>
+</html>

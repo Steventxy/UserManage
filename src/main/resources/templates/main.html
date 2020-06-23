@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>用户管理系统</title>
+	<link rel="stylesheet" th:href="@{layui/css/layui.css}" />
+</head>
+<body class="childrenBody">
+<h1 align="center">用户管理系统</h1>
+<h1 align="center">欢迎光临
+    <shiro:principal property="userName"/>
+</h1>
+<!--    <h2 shiro:hasPermission="user:list" align="center"><a th:href="@{/user}">用户列表</a></h2>-->
+<div class="layui-carousel" id="carousel" style="margin: auto">
+    <div carousel-item >
+        <div><img src="images/1.png" alt="1" width="1280" height="720"></div>
+        <div><img src="images/2.jpg" alt="2" width="1280" height="720"></div>
+        <div><img src="images/3.jpg" alt="3" width="1280" height="720"></div>
+        <div><img src="images/4.jpg" alt="4" width="1280" height="720"></div>
+        <div><img src="images/5.jpg" alt="5" width="1280" height="720"></div>
+    </div>
+</div>
+<script th:src="@{layui/layui.js}" rel="script"></script>
+<!--轮播图-->
+<script th:inline="javascript">
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#carousel'
+            , width: '1280' //设置容器宽度
+			, height: '720'
+            , arrow: 'none' //始终显示箭头
+            ,anim: 'updown' //切换动画方式
+			,indicator: 'none'
+			,interval: "2000"
+        });
+    });
+</script>
+</body>
+</html>

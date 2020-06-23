@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>editUser</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.js}"></script>
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+<div class="layui-col-md12">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <form class="layui-form" th:object="${user}" action="">
+                <div class="layui-form-item" style="display: none">
+                    <label class="layui-form-label">userId</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:field="*{userId}" name="userId" required lay-verify="required"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">登录名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:field="*{loginName}" name="loginName" required lay-verify="required"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:field="*{userName}" name="userName" required lay-verify="required"
+                               autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block">
+                        <input type="radio" th:field="*{sex}" name="sex" value="男" title="男">
+                        <input type="radio" th:field="*{sex}" name="sex" value="女" title="女">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">部门</label>
+                    <div class="layui-input-block">
+                        <select name="deptId" lay-verify="required">
+                            <option th:field="*{deptId}" value="">---请选择---</option>
+                            <option th:field="*{deptId}" value=1>前端</option>
+                            <option th:field="*{deptId}" value=2>后台</option>
+                            <option th:field="*{deptId}" value=3>测试</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:field="*{phone}" name="phone" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:field="*{email}" name="email" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: none">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:field="*{status}" name="status" autocomplete="off"
+                               class="layui-input" >
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-block">
+                        <textarea id="remark" name="remark" lay-verify="content" th:field="*{remark}"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 45%">
+                        <button class="layui-btn" lay-submit lay-filter="editUser">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--富文本框-->
+<script>
+    layui.use(['layedit','layer','form'], function(){
+        var layedit = layui.layedit,
+            form = layui.form,
+            layer = layui.layer;
+        var index = layedit.build('remark'); //建立编辑器
+        form.verify({
+            content: function (value) {
+                return layedit.sync(index);
+            }
+        });
+    });
+</script>
+<script>
+    layui.use(['form', 'layedit'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            layer = layui.layer,
+            layedit = layui.layedit;
+
+        //监听提交
+        form.on('submit(editUser)', function (data) {
+            console.log($('#remark').val());
+            $.ajax({
+                url: "/user/update",
+                type: "post",
+                data: data.field,
+                dataType: "json",
+                // success: function (data) {
+                //     // alert(data);
+                //     if (data !== 0) {
+                //         layer.alert("修改成功", {icon: 1, time: 2000}, function () {
+                //             // layer.close(layer.index);
+                //             // window.parent.location.reload();
+                //         });
+                //     } else {
+                //         // alert(1123);
+                //         layer.alert("修改失败", {icon: 2, time: 2000});
+                //     }
+                // }
+                success: function (data) {
+                    if (data !== 0) {
+                        layer.close(layer.index);
+                        layer.alert("修改成功", {icon: 6,title: '提示'},function () {
+                            window.parent.location.reload();
+                        });
+                    } else {
+                        layer.alert("修改失败", {icon: 2, title: '提示'},function () {
+                            window.parent.location.reload();
+                        });
+                    }
+                },
+                error: function () {
+                    layer.alert("修改出错", {icon: 2, title: '提示'},function () {
+                        window.parent.location.reload();
+                    });
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

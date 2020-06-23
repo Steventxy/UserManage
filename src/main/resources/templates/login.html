@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/layui/style/admin.css}">
+    <link rel="stylesheet" th:href="@{/layui/style/login.css}">
+    <script rel="script" th:src="@{/js/jquery.min.js}"></script>
+</head>
+<body>
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+
+    <div class="layadmin-user-login-main">
+        <div class="layadmin-user-login-box layadmin-user-login-header">
+            <h2>登陆</h2>
+            <p>用户管理系统</p>
+        </div>
+        <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="username"></label>
+                <input type="text" name="loginName" id="username" placeholder="用户名"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="password"></label>
+                <input type="password" name="password" id="password" placeholder="密码"
+                       class="layui-input">
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-row">
+                    <div class="layui-col-xs7">
+                        <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"
+                               id="LAY-user-login-vercode"
+                               for="LAY-user-login-vercode"></label>
+                        <input type="text" name="verifyCode" id="verifyCode" placeholder="图形验证码"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-col-xs5">
+                        <div style="margin-left: 10px;">
+                            <img src="/verifyCode" class="layadmin-user-login-codeimg" id="get-vercode" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="margin-bottom: 20px;">
+                <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
+                <a href="forget.html" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
+            </div>
+            <div class="layui-form-item">
+                <button id="login" class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入
+                </button>
+            </div>
+            <!--            <div class="layui-trans layui-form-item layadmin-user-login-other">-->
+            <!--                <label>社交账号登入</label>-->
+            <!--                <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>-->
+            <!--                <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>-->
+            <!--                <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>-->
+            <!--            </div>-->
+        </div>
+    </div>
+
+    <div class="layui-trans layadmin-user-login-footer">
+
+    </div>
+</div>
+<script th:src="@{/layui/layui.js}"></script>
+
+<script th:inline="javascript">
+    $(function () {
+        $("#get-vercode").click(function () {
+            $(this).attr("src", "/verifyCode?t=" + Math.random());
+        });
+    });
+    layui.use(['form', 'jquery'], function () {
+        var $ = layui.jquery
+            , layer = layui.layer
+            , form = layui.form
+            , router = layui.router()
+            , search = router.search;
+
+
+        form.render();
+
+        //提交
+        form.on('submit(LAY-user-login-submit)', function (obj) {
+            if ($("#username").val() === '')
+                layer.msg("请输入用户名", {icon: 5, anim: 6, shade: [0.5, '#000000'], shadeClose: true});
+            else if ($("#password").val() === '')
+                layer.msg("请输入密码", {icon: 5, anim: 6, shade: [0.5, '#000000'], shadeClose: true});
+            else if ($("#verifyCode").val() === '')
+                layer.msg("请输入验证码", {icon: 5, anim: 6, shade: [0.5, '#000000'], shadeClose: true});
+            else {
+                $.ajax({
+                    type: "POST",  //提交方式
+                    dataType: 'json',
+                    url: "/toLogin",//路径
+                    data: obj.field, //数据，这里使用的是Json格式进行传输  JSON.stringify(obj.field)
+                    success: function (res) {//返回数据根据结果进行相应的处理
+                        if (res == "1") {
+                            location.href = "/index";
+                        } else if (res == '2') {
+                            layer.msg('用户名或密码错误', {icon: 5, shade: [0.5, '#000000'], shadeClose: true});
+                            return false;
+                        } else if (res == '3') {
+                            layer.msg('验证码错误', {icon: 5, shade: [0.5, '#000000'], shadeClose: true});
+                            return false;
+                        }else if (res == '4') {
+                            layer.msg('用户不存在', {icon: 5, shade: [0.5, '#000000'], shadeClose: true});
+                            return false;
+                        }
+
+                        // if ([[${res}]] == '')
+                        //
+                    },
+                    // error(){
+                    //     layer.msg([[${session.msg}]], {icon: 5, shade: [0.5, '#000000'], shadeClose: true});
+                    // }
+                });
+            }
+
+        });
+    });
+</script>
+<script>
+    // 监听键盘是否按下回车
+    $(document).keydown(function (event) {
+        if (event.keyCode === 13) {
+            $("#login").click();
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.system.usermanage.mapper.MenuMapper">
+    <resultMap id="MenuResultMap" type="Menu">
+        <id property="menuId" column="menu_id"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="url" column="url"/>
+        <result property="visible" column="visible" />
+        <result property="perms" column="perms" />
+        <result property="createBy" column="create_by" />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+    <select id="selectMenu" parameterType="int" resultMap="MenuResultMap">
+        select menu_id,menu_name,url,visible,perms,create_by,create_time,update_by,update_time
+        from menu
+        where perms in (
+        select perm_key
+        from permission p
+        left join role_permission rp on p.perm_id = rp.perm_id
+        left join user u on u.user_role = rp.role_id
+        where user_id = #{userId}
+        ) and visible = 1
+    </select>
+</mapper>

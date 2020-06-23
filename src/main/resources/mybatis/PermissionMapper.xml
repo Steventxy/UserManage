@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.system.usermanage.mapper.PermissionMapper">
+    <resultMap id="PermResultMap" type="Permission">
+        <id property="permId" column="perm_id"/>
+        <result property="permName" column="perm_name"/>
+        <result property="permKey" column="perm_key"/>
+        <result property="permUrl" column="perm_url"/>
+    </resultMap>
+    <select id="selectUserPermsById" parameterType="int" resultType="String">
+        select perm_key
+        from permission p
+        left join role_permission rp on p.perm_id = rp.perm_id
+        where role_id = #{roleId}
+    </select>
+</mapper>

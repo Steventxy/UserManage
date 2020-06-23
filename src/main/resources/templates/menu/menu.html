@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单管理</title>
+    <link rel="stylesheet" th:href="@{layui/css/layui.css}"/>
+</head>
+<body>
+<div id="menuTree"></div>
+<script src="/layui/layui.js"></script>
+<script th:inline="javascript">
+    layui.use('tree', function () {
+        var tree = layui.tree;
+
+        //渲染
+        var inst1 = tree.render({
+            elem: '#menuTree',  //绑定元素
+            data: [{
+                title: '管理系统',
+                spread: true,
+                children: [{
+                    title: '菜单管理'
+                }, {
+                    title: '用户管理',
+                    children: [{
+                        title: '新增用户'
+                    }, {
+                        title: '修改用户'
+                    }, {
+                        title: '删除用户'
+                    }
+                    ]
+                }]
+            }],
+            showLine: true
+        });
+    })
+    ;
+</script>
+</body>
+</html>
