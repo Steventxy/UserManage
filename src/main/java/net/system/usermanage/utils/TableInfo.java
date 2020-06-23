@@ -1,5 +1,6 @@
 package net.system.usermanage.utils;
 
+import com.github.pagehelper.PageInfo;
 import lombok.Data;
 
 import java.util.List;
@@ -25,4 +26,11 @@ public class TableInfo {
     //总记录条数
     private long count;
 
+    public TableInfo getTableData(List<?> list, int size){
+        TableInfo resData = new TableInfo();
+        resData.setCode(0);
+        resData.setData(list);
+        resData.setCount(new PageInfo(list).getTotal());
+        return resData;
+    }
 }
