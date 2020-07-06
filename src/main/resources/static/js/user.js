@@ -41,7 +41,7 @@ layui.use('table', function () {
             {
                 field: 'userName',
                 title: '用户名称',
-                width: 120,
+                width: 120
             },
             {
                 field: 'sex',
@@ -129,7 +129,7 @@ layui.use('table', function () {
                         });
                     });
                 } else {
-                    layer.alert('请选择一条数据', {icon: 7, title: '警告'});
+                    layer.alert('请至少选择一条数据', {icon: 7, title: '警告'});
                 }
 
                 break;

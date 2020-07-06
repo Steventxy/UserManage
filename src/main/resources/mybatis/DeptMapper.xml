@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.system.usermanage.mapper.DeptMapper">
+    <resultMap id="DeptMap" type="Department">
+        <id property="deptId" column="dept_id"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="leader" column="leader"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <select id="selectDeptList" resultMap="DeptMap">
+        select
+            dept_id,
+            dept_name,
+            leader,
+            phone,
+            email,
+            status
+        from department
+    </select>
+</mapper>

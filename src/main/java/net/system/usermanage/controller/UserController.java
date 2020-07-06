@@ -1,11 +1,13 @@
 package net.system.usermanage.controller;
 
+import net.system.usermanage.service.impl.DeptServiceImpl;
 import net.system.usermanage.utils.TableInfo;
 import net.system.usermanage.domain.User;
 import net.system.usermanage.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +22,15 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    DeptServiceImpl deptService;
+
     private TableInfo tableInfo = new TableInfo();
 
     @GetMapping()
-    public String user() {
+    public String user(Model modelMap) {
+        modelMap.addAttribute("dept",deptService.selectDeptList());
         return "user/user";
     }
 
@@ -44,7 +51,6 @@ public class UserController {
     @GetMapping("/list")
 //    @RequiresPermissions("user:list")
     public TableInfo userList(User user, int page, int limit) {
-        System.out.println("page:" + page + "limit:" +limit);
         List<User> list = userService.selectUserList(user,page,limit);
         List<User> users = userService.getUserCount(user);
         return tableInfo.getTableData(list,users.size());

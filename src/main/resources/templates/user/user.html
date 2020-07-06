@@ -31,9 +31,8 @@
         <div class="layui-input-inline" style="width: 150px">
             <select name="deptId" id="deptId">
                 <option value="">请选择部门</option>
-                <option value="1">前端</option>
-                <option value="2">后台</option>
-                <option value="3">测试</option>
+                <option th:each="dept:${dept}" th:value="${dept.deptId}" th:text="${dept.deptName}">
+                </option>
             </select>
         </div>
     </div>
