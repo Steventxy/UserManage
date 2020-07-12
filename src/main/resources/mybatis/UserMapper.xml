@@ -6,7 +6,7 @@
         <result property="deptId"   column="dept_id"/>
         <result property="deptName" column="dept_name"/>
         <result property="loginName" column="login_name"/>
-        <result property="userName" column="user_name"/>
+        <result property="userName" column="username"/>
         <result property="password" column="password"/>
         <result property="salt"     column="salt"/>
         <result property="userRole" column="user_role"/>
@@ -28,7 +28,7 @@
             u.dept_id,
             dept_name,
             login_name,
-            user_name,
+            username,
             password,
             salt,
             role_id,
@@ -47,7 +47,7 @@
 
         <where>
             <if test="user.loginName != null and loginName != '' ">login_name like concat('%',#{loginName},'%') and </if>
-            <if test="user.userName != null and user.userName != '' ">user_name like concat('%',#{user.userName},'%') and </if>
+            <if test="user.userName != null and user.userName != '' ">username like concat('%',#{user.userName},'%') and </if>
             <if test="user.sex != null and user.sex != '' ">sex = #{user.sex} and </if>
             <if test="user.deptId != null and user.deptId != '' ">u.dept_id = #{user.deptId} and </if>
             <if test="user.phone != null and phone != '' ">phone = #{phone} and </if>
@@ -65,7 +65,7 @@
         from user
         <where>
             <if test="loginName != null and loginName != '' ">login_name like concat('%',#{loginName},'%') and </if>
-            <if test="userName != null and userName != '' ">user_name like concat('%',#{userName},'%') and </if>
+            <if test="userName != null and userName != '' ">username like concat('%',#{userName},'%') and </if>
             <if test="sex != null and sex != '' ">sex = #{sex} and </if>
             <if test="deptId != null and deptId != '' ">dept_id = #{deptId} and </if>
             <if test="phone != null and phone != '' ">phone = #{phone} and </if>
@@ -82,7 +82,7 @@
     </select>
 
     <select id="selectUserByName" parameterType="String" resultMap="UserResultMap">
-        select user_id,user_role,login_name,user_name,password,salt
+        select user_id,user_role,login_name,username,password,salt
         from user
         where login_name = #{loginName} and del_flag = 0 and status = 1
     </select>
@@ -124,7 +124,7 @@
     <insert id="addUser" parameterType="User">
         insert into user(
         <if test="loginName != null and loginName != '' ">login_name,</if>
-        <if test="userName != null and userName != '' ">user_name,</if>
+        <if test="userName != null and userName != '' ">username,</if>
         <if test="sex != null and sex != '' ">sex,</if>
         <if test="deptId != null and deptId != '' ">dept_id,</if>
         <if test="phone != null and phone != '' ">phone,</if>

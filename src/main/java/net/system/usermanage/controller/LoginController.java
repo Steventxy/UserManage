@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-
     @GetMapping()
     public String toLogin(){
         return "redirect:login";
