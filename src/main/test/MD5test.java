@@ -11,9 +11,9 @@ public class MD5test {
     @Test
     public void contextLoads() {
 
-        String password  = "123456";
+        String password  = "abc123";
 
-        String salt = "7ajvy6";
+        String salt = "ocdthl";
 
         SimpleHash simpleHash = new SimpleHash("md5",password, ByteSource.Util.bytes(salt),1);
 
